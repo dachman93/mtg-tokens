@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#171923">
+  <title>Magic Token Counter</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #171923;
+      color: #f5f5f5;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      padding: 24px 16px;
+    }
+    main { max-width: 440px; margin: auto; }
+    h1 { text-align: center; color: #e8c76a; }
+    .subtitle { text-align: center; color: #aaa; }
+    .card {
+      background: #242735;
+      border: 1px solid #41465a;
+      border-radius: 18px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+    .player {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    .count { font-size: 54px; font-weight: 800; text-align: center; margin: 16px 0; }
+    .buttons { display: flex; gap: 12px; }
+    button {
+      border: 0;
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .buttons button { flex: 1; }
+    .minus { background: #45495b; color: white; }
+    .plus { background: #e8c76a; color: #171923; }
+    .reset {
+      width: 100%;
+      margin-top: 18px;
+      background: #343849;
+      color: white;
+    }
+    .label { color: #aaa; font-size: 13px; }
+    .life { color: #8fe3a0; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>✦ MAGIC TOKENS ✦</h1>
+    <p class="subtitle">Tu contador personal de Magic</p>
+    <section class="card">
+      <div class="player">
+        <strong>Jugador 1</strong>
+        <span class="label">TOKENS</span>
+      </div>
+      <div class="count life" id="count">0</div>
+      <div class="buttons">
+        <button class="minus" onclick="change(-1)">− 1</button>
+        <button class="plus" onclick="change(1)">+ 1</button>
+        <button class="plus" onclick="change(5)">+ 5</button>
+      </div>
+    </section>
+    <button class="reset" onclick="resetCount()">Reiniciar contador</button>
+  </main>
+  <script>
+    let tokens = 0;
+    const display = document.getElementById('count');
+    function change(amount) {
+      tokens = Math.max(0, tokens + amount);
+      display.textContent = tokens;
+    }
+    function resetCount() {
+      if (confirm('¿Quieres reiniciar el contador?')) {
+        tokens = 0;
+        display.textContent = tokens;
+      }
+    }
+  </script>
+</body>
+</html>
