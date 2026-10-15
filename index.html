@@ -91,7 +91,7 @@ button {
 
 <script>
 const tokenTypes = [
-  { id: "goblin", name: "Goblin", type: "Criatura", symbol: "👺" },
+  { id: "goblin", name: "Goblin", type: "Criatura", symbol: "👺", image: "https://cards.scryfall.io/display/front/b/d/bd79264f-0734-48b7-8333-4035e518d46c.webp?1783934931" },
   { id: "treasure", name: "Tesoro", type: "Artefacto", symbol: "💰" },
   { id: "soldier", name: "Soldado", type: "Criatura", symbol: "🛡️" },
   { id: "food", name: "Comida", type: "Artefacto", symbol: "🍖" },
@@ -110,10 +110,13 @@ const catalog = document.getElementById("catalog");
 tokenTypes.forEach(token => {
   const button = document.createElement("button");
   button.className = "token";
-  button.innerHTML =
-    '<span class="symbol">' + token.symbol + '</span>' +
-    '<span class="token-name">' + token.name + '</span>' +
-    '<span class="token-type">' + token.type + '</span>';
+button.innerHTML =
+  (token.image
+    ? '<img src="' + token.image + '" alt="' + token.name +
+      '" style="width:100%;max-width:150px;border-radius:8px;margin-bottom:8px;">'
+    : '<span class="symbol">' + token.symbol + '</span>') +
+  '<span class="token-name">' + token.name + '</span>' +
+  '<span class="token-type">' + token.type + '</span>';
   button.onclick = () => selectToken(token.id);
   button.id = "token-" + token.id;
   catalog.appendChild(button);
@@ -123,7 +126,9 @@ function selectToken(id) {
   selected = id;
   const token = tokenTypes.find(item => item.id === id);
   document.getElementById("counter").classList.remove("hidden");
-  document.getElementById("chosenSymbol").textContent = token.symbol;
+  document.getElementById("chosenSymbol").innerHTML = token.image
+  ? '<img src="' + token.image + '" alt="' + token.name + '" style="width:150px;max-width:100%;border-radius:10px;">'
+  : token.symbol;
   document.getElementById("chosenName").textContent = token.name;
   document.querySelectorAll(".token").forEach(button => {
     button.classList.remove("selected");
