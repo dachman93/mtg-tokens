@@ -1,90 +1,169 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#171923">
-  <title>Magic Token Counter</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: #171923;
-      color: #f5f5f5;
-      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-      padding: 24px 16px;
-    }
-    main { max-width: 440px; margin: auto; }
-    h1 { text-align: center; color: #e8c76a; }
-    .subtitle { text-align: center; color: #aaa; }
-    .card {
-      background: #242735;
-      border: 1px solid #41465a;
-      border-radius: 18px;
-      padding: 20px;
-      margin-top: 20px;
-    }
-    .player {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-    }
-    .count { font-size: 54px; font-weight: 800; text-align: center; margin: 16px 0; }
-    .buttons { display: flex; gap: 12px; }
-    button {
-      border: 0;
-      border-radius: 12px;
-      padding: 14px;
-      font-size: 18px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .buttons button { flex: 1; }
-    .minus { background: #45495b; color: white; }
-    .plus { background: #e8c76a; color: #171923; }
-    .reset {
-      width: 100%;
-      margin-top: 18px;
-      background: #343849;
-      color: white;
-    }
-    .label { color: #aaa; font-size: 13px; }
-    .life { color: #8fe3a0; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#171923">
+<title>Magic Tokens</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  padding: 22px 15px 40px;
+  background: #171923;
+  color: #f5f5f5;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+main { max-width: 500px; margin: auto; }
+h1 { text-align: center; color: #e8c76a; margin-bottom: 5px; }
+.subtitle { text-align: center; color: #aaa; margin-top: 0; }
+h2 { font-size: 18px; }
+.catalog {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.token {
+  background: #242735;
+  border: 1px solid #41465a;
+  border-radius: 14px;
+  padding: 16px 10px;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+}
+.token:active { transform: scale(.97); }
+.token.selected { border: 2px solid #e8c76a; }
+.symbol { font-size: 35px; display: block; margin-bottom: 8px; }
+.token-name { font-weight: bold; font-size: 16px; }
+.token-type { display: block; color: #aaa; font-size: 12px; margin-top: 5px; }
+.card {
+  margin-top: 20px;
+  background: #242735;
+  border: 1px solid #41465a;
+  border-radius: 18px;
+  padding: 20px;
+  text-align: center;
+}
+.count { font-size: 60px; font-weight: 800; margin: 12px 0; color: #8fe3a0; }
+.buttons { display: flex; gap: 10px; }
+button {
+  border: 0;
+  border-radius: 11px;
+  padding: 13px 10px;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.buttons button { flex: 1; }
+.minus { background: #45495b; color: white; }
+.plus { background: #e8c76a; color: #171923; }
+.reset { width: 100%; margin-top: 15px; background: #343849; color: white; }
+.hidden { display: none; }
+</style>
 </head>
 <body>
-  <main>
-    <h1>✦ MAGIC TOKENS ✦</h1>
-    <p class="subtitle">Tu contador personal de Magic</p>
-    <section class="card">
-      <div class="player">
-        <strong>Jugador 1</strong>
-        <span class="label">TOKENS</span>
-      </div>
-      <div class="count life" id="count">0</div>
-      <div class="buttons">
-        <button class="minus" onclick="change(-1)">− 1</button>
-        <button class="plus" onclick="change(1)">+ 1</button>
-        <button class="plus" onclick="change(5)">+ 5</button>
-      </div>
-    </section>
-    <button class="reset" onclick="resetCount()">Reiniciar contador</button>
-  </main>
-  <script>
-    let tokens = 0;
-    const display = document.getElementById('count');
-    function change(amount) {
-      tokens = Math.max(0, tokens + amount);
-      display.textContent = tokens;
-    }
-    function resetCount() {
-      if (confirm('¿Quieres reiniciar el contador?')) {
-        tokens = 0;
-        display.textContent = tokens;
-      }
-    }
-  </script>
+<main>
+  <h1>✦ MAGIC TOKENS ✦</h1>
+  <p class="subtitle">Elige tu ficha y lleva la cuenta</p>
+
+  <h2>Catálogo de tokens</h2>
+  <div class="catalog" id="catalog"></div>
+
+  <section class="card hidden" id="counter">
+    <div id="chosenSymbol" class="symbol"></div>
+    <div id="chosenName"></div>
+    <div class="count" id="count">0</div>
+    <div class="buttons">
+      <button class="minus" onclick="change(-1)">− 1</button>
+      <button class="plus" onclick="change(1)">+ 1</button>
+      <button class="plus" onclick="change(5)">+ 5</button>
+    </div>
+    <button class="reset" onclick="resetCurrent()">Reiniciar esta ficha</button>
+  </section>
+
+  <section class="card">
+    <strong>Resumen de la partida</strong>
+    <p id="summary">Selecciona un token para comenzar.</p>
+    <button class="reset" onclick="resetAll()">Reiniciar todos los tokens</button>
+  </section>
+</main>
+
+<script>
+const tokenTypes = [
+  { id: "goblin", name: "Goblin", type: "Criatura", symbol: "👺" },
+  { id: "treasure", name: "Tesoro", type: "Artefacto", symbol: "💰" },
+  { id: "soldier", name: "Soldado", type: "Criatura", symbol: "🛡️" },
+  { id: "food", name: "Comida", type: "Artefacto", symbol: "🍖" },
+  { id: "spirit", name: "Espíritu", type: "Criatura", symbol: "👻" },
+  { id: "beast", name: "Bestia", type: "Criatura", symbol: "🐺" },
+  { id: "zombie", name: "Zombie", type: "Criatura", symbol: "🧟" },
+  { id: "bird", name: "Ave", type: "Criatura", symbol: "🐦" }
+];
+
+const counts = {};
+tokenTypes.forEach(token => counts[token.id] = 0);
+let selected = null;
+
+const catalog = document.getElementById("catalog");
+
+tokenTypes.forEach(token => {
+  const button = document.createElement("button");
+  button.className = "token";
+  button.innerHTML =
+    '<span class="symbol">' + token.symbol + '</span>' +
+    '<span class="token-name">' + token.name + '</span>' +
+    '<span class="token-type">' + token.type + '</span>';
+  button.onclick = () => selectToken(token.id);
+  button.id = "token-" + token.id;
+  catalog.appendChild(button);
+});
+
+function selectToken(id) {
+  selected = id;
+  const token = tokenTypes.find(item => item.id === id);
+  document.getElementById("counter").classList.remove("hidden");
+  document.getElementById("chosenSymbol").textContent = token.symbol;
+  document.getElementById("chosenName").textContent = token.name;
+  document.querySelectorAll(".token").forEach(button => {
+    button.classList.remove("selected");
+  });
+  document.getElementById("token-" + id).classList.add("selected");
+  update();
+}
+
+function change(amount) {
+  if (!selected) return;
+  counts[selected] = Math.max(0, counts[selected] + amount);
+  update();
+}
+
+function resetCurrent() {
+  if (!selected) return;
+  const token = tokenTypes.find(item => item.id === selected);
+  if (confirm("¿Reiniciar los tokens de " + token.name + "?")) {
+    counts[selected] = 0;
+    update();
+  }
+}
+
+function resetAll() {
+  if (confirm("¿Reiniciar todos los tokens de la partida?")) {
+    tokenTypes.forEach(token => counts[token.id] = 0);
+    update();
+  }
+}
+
+function update() {
+  if (selected) {
+    document.getElementById("count").textContent = counts[selected];
+  }
+
+  const active = tokenTypes.filter(token => counts[token.id] > 0);
+  document.getElementById("summary").textContent = active.length
+    ? active.map(token => token.symbol + " " + token.name + ": " + counts[token.id]).join(" · ")
+    : "No hay tokens en la partida.";
+}
+</script>
 </body>
 </html>
