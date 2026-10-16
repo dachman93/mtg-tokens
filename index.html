@@ -203,6 +203,28 @@ function change(amount) {
   counts[selected] = Math.max(0, counts[selected] + amount);
   update();
 }
+  function renderAbilityButtons() {
+  const container = document.getElementById("abilityButtons");
+
+  if (!selected || !tokenAbilities[selected]) return;
+
+  container.innerHTML = abilities.map(ability => {
+    const active = tokenAbilities[selected][ability.id];
+
+    return '<button class="' + (active ? 'plus' : 'minus') +
+      '" onclick="toggleAbility(\'' + ability.id + '\')">' +
+      (active ? '✓ ' : '') + ability.label + '</button>';
+  }).join("");
+}
+
+function toggleAbility(abilityId) {
+  if (!selected || !tokenAbilities[selected]) return;
+
+  tokenAbilities[selected][abilityId] =
+    !tokenAbilities[selected][abilityId];
+
+  renderAbilityButtons();
+}
 
 function resetCurrent() {
   if (!selected) return;
