@@ -105,7 +105,15 @@ const tokenTypes = [
 const counts = {};
 tokenTypes.forEach(token => counts[token.id] = 0);
 let selected = null;
-
+const stats = {};
+tokenTypes.forEach(token => {
+  if (token.power !== undefined && token.toughness !== undefined) {
+    stats[token.id] = {
+      power: token.power,
+      toughness: token.toughness
+    };
+  }
+});
 const catalog = document.getElementById("catalog");
 
 tokenTypes.forEach(token => {
