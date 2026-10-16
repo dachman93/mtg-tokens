@@ -74,6 +74,7 @@ button {
     <div id="chosenSymbol" class="symbol"></div>
     <div id="chosenName"></div>
 <div id="chosenStats"></div>
+<div id="activeAbilityIcons"></div>
 <div id="statsButtons" class="buttons hidden">
   <button class="minus" onclick="changeStat('power', -1)">Fuerza −</button>
   <button class="plus" onclick="changeStat('power', 1)">Fuerza +</button>
@@ -135,7 +136,20 @@ tokenTypes.forEach(token => {
   { id: "menace", label: "Menace" },
   { id: "hexproof", label: "Hexproof" }
 ];
-
+const abilityIcons = {
+  haste: "🔥",
+  deathtouch: "☠️",
+  trample: "💥",
+  flying: "🪽",
+  summoningSickness: "💤",
+  indestructible: "🛡️",
+  firstStrike: "⚔️",
+  doubleStrike: "⚔️⚔️",
+  vigilance: "👁️",
+  lifelink: "❤️",
+  menace: "👹",
+  hexproof: "✨"
+};
 const tokenAbilities = {};
 tokenTypes.forEach(token => {
   tokenAbilities[token.id] = {};
