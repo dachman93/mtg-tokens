@@ -139,10 +139,8 @@ function selectToken(id) {
   ? '<img src="' + token.image + '" alt="' + token.name + '" style="width:150px;max-width:100%;border-radius:10px;">'
   : token.symbol;
   document.getElementById("chosenName").textContent = token.name;
-  document.getElementById("chosenStats").textContent =
-  token.power !== undefined && token.toughness !== undefined
-    ? token.power + "/" + token.toughness
-    : "";
+ document.getElementById("chosenStats").textContent =
+  stats[id] ? stats[id].power + "/" + stats[id].toughness : "";
   document.querySelectorAll(".token").forEach(button => {
     button.classList.remove("selected");
   });
