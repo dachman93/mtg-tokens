@@ -121,6 +121,28 @@ tokenTypes.forEach(token => {
     };
   }
 });
+  const abilities = [
+  { id: "haste", label: "Haste" },
+  { id: "deathtouch", label: "Deathtouch" },
+  { id: "trample", label: "Trample" },
+  { id: "flying", label: "Flying" },
+  { id: "summoningSickness", label: "Summoning sickness" },
+  { id: "indestructible", label: "Indestructible" },
+  { id: "firstStrike", label: "First strike" },
+  { id: "doubleStrike", label: "Double strike" },
+  { id: "vigilance", label: "Vigilance" },
+  { id: "lifelink", label: "Lifelink" },
+  { id: "menace", label: "Menace" },
+  { id: "hexproof", label: "Hexproof" }
+];
+
+const tokenAbilities = {};
+tokenTypes.forEach(token => {
+  tokenAbilities[token.id] = {};
+  abilities.forEach(ability => {
+    tokenAbilities[token.id][ability.id] = false;
+  });
+});
 const catalog = document.getElementById("catalog");
 
 tokenTypes.forEach(token => {
