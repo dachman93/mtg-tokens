@@ -192,12 +192,26 @@ function selectToken(id) {
 );
  document.getElementById("chosenStats").textContent =
   stats[id] ? stats[id].power + "/" + stats[id].toughness : "";
-renderAbilityButtons();
-  document.querySelectorAll(".token").forEach(button => {
-    button.classList.remove("selected");
-  });
-  document.getElementById("token-" + id).classList.add("selected");
-  update();
+function renderAbilityButtons() {
+  const container = document.getElementById("abilityButtons");
+  const iconsContainer = document.getElementById("activeAbilityIcons");
+
+  if (!selected || !tokenAbilities[selected]) return;
+
+  container.innerHTML = abilities.map(ability => {
+    const active = tokenAbilities[selected][ability.id];
+
+    return '<button class="' + (active ? 'plus' : 'minus') +
+      '" onclick="toggleAbility(\'' + ability.id + '\')">' +
+      (active ? '✓ ' : '') + ability.label + '</button>';
+  }).join("");
+
+  iconsContainer.innerHTML = abilities
+    .filter(ability => tokenAbilities[selected][ability.id])
+    .map(ability =>
+      '<span title="' + ability.label + '">' +
+      abilityIcons[ability.id] + '</span>'
+    ).join(" ");
 }
 function changeStat(stat, amount) {
   if (!selected || !stats[selected]) return;
