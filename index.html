@@ -73,8 +73,14 @@ button {
   <section class="card hidden" id="counter">
     <div id="chosenSymbol" class="symbol"></div>
     <div id="chosenName"></div>
-    <div id="chosenStats"></div>
-    <div class="count" id="count">0</div>
+<div id="chosenStats"></div>
+<div id="statsButtons" class="buttons hidden">
+  <button class="minus" onclick="changeStat('power', -1)">Fuerza −</button>
+  <button class="plus" onclick="changeStat('power', 1)">Fuerza +</button>
+  <button class="minus" onclick="changeStat('toughness', -1)">Resistencia −</button>
+  <button class="plus" onclick="changeStat('toughness', 1)">Resistencia +</button>
+</div>
+<div class="count" id="count">0</div>
     <div class="buttons">
       <button class="minus" onclick="change(-1)">− 1</button>
       <button class="plus" onclick="change(1)">+ 1</button>
