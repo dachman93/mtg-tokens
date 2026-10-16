@@ -178,8 +178,7 @@ function selectToken(id) {
 );
  document.getElementById("chosenStats").textContent =
   stats[id] ? stats[id].power + "/" + stats[id].toughness : "";
- document.getElementById("chosenStats").textContent =
-  stats[id] ? stats[id].power + "/" + stats[id].toughness : "";
+renderAbilityButtons();
   document.querySelectorAll(".token").forEach(button => {
     button.classList.remove("selected");
   });
