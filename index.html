@@ -153,6 +153,17 @@ function selectToken(id) {
   document.getElementById("token-" + id).classList.add("selected");
   update();
 }
+function changeStat(stat, amount) {
+  if (!selected || !stats[selected]) return;
+
+  stats[selected][stat] = Math.max(
+    0,
+    stats[selected][stat] + amount
+  );
+
+  document.getElementById("chosenStats").textContent =
+    stats[selected].power + "/" + stats[selected].toughness;
+}
 
 function change(amount) {
   if (!selected) return;
