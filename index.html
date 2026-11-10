@@ -214,6 +214,7 @@ function renderAbilityButtons() {
   const iconsContainer = document.getElementById("activeAbilityIcons");
   if (!selected || !tokenAbilities[selected]) return;
   iconsContainer.textContent= "PRUEBA";
+  return;
 
   container.innerHTML = abilities.map(ability => {
     const active = tokenAbilities[selected][ability.id];
