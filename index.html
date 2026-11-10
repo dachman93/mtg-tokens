@@ -212,9 +212,8 @@ function selectToken(id) {
 function renderAbilityButtons() {
   const container = document.getElementById("abilityButtons");
   const iconsContainer = document.getElementById("activeAbilityIcons");
-  iconsContainer.textContent= "PRUEBA";
-
   if (!selected || !tokenAbilities[selected]) return;
+  iconsContainer.textContent= "PRUEBA";
 
   container.innerHTML = abilities.map(ability => {
     const active = tokenAbilities[selected][ability.id];
